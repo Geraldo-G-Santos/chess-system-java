@@ -26,21 +26,27 @@ public class ChessMatch {
 		return mat;
 	}
 	
-	public ChessPiece performeChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
+	public boolean[][] possibleMoves(ChessPosition sourcePosition){
+		Position position = sourcePosition.toPosition();
+		validateSourcePosition(position);
+		return board.piece(position).possibleMoves();
+	}
+	
+	public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
 		Position source = sourcePosition.toPosition();
 		Position target = targetPosition.toPosition();
 		validateSourcePosition(source);
 		validateTargetPosition(source, target);
-		Piece capturePiece = makeMove(source, target);
-		return (ChessPiece)capturePiece;
+		Piece capturedPiece = makeMove(source, target);
+		return (ChessPiece)capturedPiece;
 		
 	}
 	
 	private Piece makeMove(Position source, Position target) {
 		Piece p = board.removePiece(source);
-		Piece capturePiece = board.removePiece(target);
+		Piece capturedPiece = board.removePiece(target);
 		board.placePiece(p, target);
-		return capturePiece;
+		return capturedPiece;
 	}
 	
 	private void validateSourcePosition(Position position) {
